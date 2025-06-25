@@ -9,17 +9,23 @@ pipeline {
         }
         stage('Install Dependencies') {
             steps {
-                sh 'pip install -r requirements.txt'
+                // sh 'pip install -r requirements.txt'
+                sh '''
+                    python3 -m venv venv
+                    . venv/bin/activate
+                    pip install -r requirements.txt
+                '''
+
             }
         }
         stage('Train Model') {
             steps {
-                sh 'python train.py'
+                sh './venv/bin/python train.py'
             }
         }
         stage('Test Model') {
             steps {
-                sh 'python test.py'
+                sh './venv/bin/python test.py'
             }
         }
         stage('Archive Model') {
